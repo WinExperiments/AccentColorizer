@@ -8,10 +8,10 @@ struct rgb_t
 	double r, g, b;
 };
 
-struct hsv_t
+struct hsl_t
 {
-	double h, s, v;
+	double h, s, l;
 };
 
-hsv_t rgb2hsv(rgb_t in);
-rgb_t hsv2rgb(hsv_t in);
+hsl_t rgb2hsl(rgb_t in);
+rgb_t hsl2rgb(hsl_t in);

@@ -5,6 +5,8 @@
 constexpr int aSysElements[] = {
 	COLOR_ACTIVECAPTION,
 	COLOR_GRADIENTACTIVECAPTION,
+	COLOR_INACTIVECAPTION,
+	COLOR_GRADIENTINACTIVECAPTION,
 	COLOR_HIGHLIGHT,
 	COLOR_HOTLIGHT,
 	COLOR_MENUHILIGHT
@@ -17,7 +19,7 @@ void ModifySysColors()
 
 	COLORREF dwCurrentColor;
 	rgb_t rgbVal;
-	hsv_t hsvVal;
+	hsl_t hslVal;
 
 	for (int i = 0; i < nSysElements; i++)
 	{
@@ -28,11 +30,16 @@ void ModifySysColors()
 			(double)GetGValue(dwCurrentColor),
 			(double)GetBValue(dwCurrentColor)
 		};
-		hsvVal = rgb2hsv(rgbVal);
+		hslVal = rgb2hsl(rgbVal);
 
-		hsvVal.h = g_hsvAccentH;
+		hslVal.h = g_defaulthslAccentH;
+		hslVal.s = (double)hslVal.s * (double)(1 / (double)g_oldhslAccentS) * (double)g_defaulthslAccentS;
 
-		rgbVal = hsv2rgb(hsvVal);
+
+		hslVal.h = g_hslAccentH;
+		hslVal.s = (double)hslVal.s * (double)g_hslAccentS;
+
+		rgbVal = hsl2rgb(hslVal);
 
 		aNewColors[i] = RGB(rgbVal.r, rgbVal.g, rgbVal.b);
 	}

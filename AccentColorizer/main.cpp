@@ -3,9 +3,11 @@
 #include "StyleModifier.h"
 #include "SettingsHelper.h"
 #include "SystemHelper.h"
+#include "BitmapHelper.h"
 
 constexpr LPCWSTR szWindowClass = L"ACCENTCOLORIZER";
 HANDLE hMutex;
+int accentColorChanges = 0;
 
 void ApplyAccentColorization()
 {
@@ -21,15 +23,15 @@ void ApplyAccentColorization()
 
 	ModifySysColors();
 	ModifyStyles();
+	hBitmapList.clear();
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (message == WM_DWMCOLORIZATIONCOLORCHANGED ||
-		message == WM_DPICHANGED ||
 		message == WM_THEMECHANGED ||
 		(message == WM_WTSSESSION_CHANGE && wParam == WTS_SESSION_UNLOCK)
-	)
+		)
 	{
 		if (message != WM_DWMCOLORIZATIONCOLORCHANGED)
 		{
@@ -40,15 +42,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//  d) Device was turned on after sleep, and colors and bitmaps probably were reset
 			g_dwAccent = NULL;
 		}
+		if (message == WM_DWMCOLORIZATIONCOLORCHANGED || (message == WM_WTSSESSION_CHANGE && wParam == WTS_SESSION_UNLOCK)) {
+			accentColorChanges++;
+		}
+		else {
+			accentColorChanges = 0;
+		}
 		ApplyAccentColorization();
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-    _In_opt_ HINSTANCE hPrevInstance,
-    _In_ LPWSTR    lpCmdLine,
-    _In_ int       nCmdShow)
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
 	hMutex = CreateMutex(NULL, TRUE, szWindowClass);
 	if (!hMutex || ERROR_ALREADY_EXISTS == GetLastError())

@@ -6,12 +6,12 @@ DWORD rgb2bgr(COLORREF color)
 }
 
 
-// https://stackoverflow.com/a/6930407
+// https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
 
-hsv_t rgb2hsv(rgb_t in)
+hsl_t rgb2hsl(rgb_t in)
 {
-	hsv_t       out;
-	double      min, max, delta;
+	hsl_t       out;
+	double      min, max, sigma, delta;
 
 	min = in.r < in.g ? in.r : in.g;
 	min = min < in.b ? min : in.b;
@@ -19,94 +19,136 @@ hsv_t rgb2hsv(rgb_t in)
 	max = in.r > in.g ? in.r : in.g;
 	max = max > in.b ? max : in.b;
 
-	out.v = max;                                // v
+	sigma = max + min;
+	out.l = sigma / 2;
 	delta = max - min;
-	if (delta < 0.00001)
-	{
-		out.s = 0;
-		out.h = 0; // undefined, maybe nan?
-		return out;
-	}
-	if (max > 0.0) { // NOTE: if Max is == 0, this divide would cause a crash
-		out.s = (delta / max);                  // s
+	if (max > 0.0) { // NOTE: if max is == 0, this divide would cause a crash
+		if (out.l <= 0.5)
+		{
+			out.s = delta / sigma;
+		}
+		if (out.l > 0.5)
+		{
+			out.s = delta / (2 - sigma);
+		}
+		/* if (out.s > 1)
+		{
+			out.s = out.s - (out.s - 1);
+		}
+		if (out.s < 0)
+		{
+			out.s = (0 - out.s);
+		} */
 	}
 	else {
 		// if max is 0, then r = g = b = 0              
-		// s = 0, h is undefined
 		out.s = 0.0;
-		//out.h = NAN;                            // its now undefined
 		return out;
 	}
-	if (in.r >= max)                           // > is bogus, just keeps compilor happy
-		out.h = (in.g - in.b) / delta;        // between yellow & magenta
+	if (in.r >= max)                           // ">" is useless, just keeps compiler happy
+		out.h = (((in.g - in.b) / delta) * 60.0);        // between yellow & magenta
 	else
 		if (in.g >= max)
-			out.h = 2.0 + (in.b - in.r) / delta;  // between cyan & yellow
+			out.h = ((2.0 + (in.b - in.r) / delta) * 60.0);  // between cyan & yellow
 		else
-			out.h = 4.0 + (in.r - in.g) / delta;  // between magenta & cyan
-
-	out.h *= 60.0;                              // degrees
+			out.h = ((4.0 + (in.r - in.g) / delta) * 60.0);  // between magenta & cyan
 
 	if (out.h < 0.0)
 		out.h += 360.0;
 
+	if (out.h > 360.0)
+		out.h -= 360.0;
+
 	return out;
 }
 
-rgb_t hsv2rgb(hsv_t in)
+rgb_t hsl2rgb(hsl_t in)
 {
-	double      hh, p, q, t, ff;
-	long        i;
+	double      ot, tt, ht, rt, gt, bt; // temporary values one, two, hue, red, green, blue
 	rgb_t       out;
 
-	if (in.s <= 0.0) {       // < is bogus, just shuts up warnings
-		out.r = in.v;
-		out.g = in.v;
-		out.b = in.v;
+	/*if (in.s <= 0.0) {       // "<" is useless, just shuts up warnings
+		out.r = in.l;
+		out.g = in.l;
+		out.b = in.l;
 		return out;
+	}*/ // this was making saturation always return 0
+	if (in.l < 0.5)
+	{
+		ot = in.l * (1.0 + in.s);
 	}
-	hh = in.h;
-	if (hh >= 360.0) hh = 0.0;
-	hh /= 60.0;
-	i = (long)hh;
-	ff = hh - i;
-	p = in.v * (1.0 - in.s);
-	q = in.v * (1.0 - (in.s * ff));
-	t = in.v * (1.0 - (in.s * (1.0 - ff)));
-
-	switch (i) {
-	case 0:
-		out.r = in.v;
-		out.g = t;
-		out.b = p;
-		break;
-	case 1:
-		out.r = q;
-		out.g = in.v;
-		out.b = p;
-		break;
-	case 2:
-		out.r = p;
-		out.g = in.v;
-		out.b = t;
-		break;
-
-	case 3:
-		out.r = p;
-		out.g = q;
-		out.b = in.v;
-		break;
-	case 4:
-		out.r = t;
-		out.g = p;
-		out.b = in.v;
-		break;
-	case 5:
-	default:
-		out.r = in.v;
-		out.g = p;
-		out.b = q;
-		break;
+	else if (in.l >= 0.5)
+	{
+		ot = in.l + in.s - (in.l * in.s);
 	}
+	tt = (2 * in.l) - ot;
+	ht = in.h /= 360.0;
+	if (ht > 0.6666667) {
+		rt = ht - (0.6666667);
+	}
+	if (ht <= 0.6666667) {
+		rt = ht + (0.3333333);
+	}
+	gt = ht;
+	if (ht < 0.3333333) {
+		bt = ht + (0.6666667);
+	}
+	if (ht >= 0.3333333) {
+		bt = ht - (0.3333333);
+	}
+	if (rt * 6 <= 1) {
+		out.r = tt + (ot - tt) * 6 * rt;
+	}
+	else if (rt * 2 <= 1) {
+		out.r = ot;
+	}
+	else if (rt * 3 <= 2) {
+		out.r = tt + (ot - tt) * (0.6666667 - rt) * 6;
+	}
+	else
+		out.r = tt;
+	if (gt * 6 <= 1) {
+		out.g = tt + (ot - tt) * 6 * gt;
+	}
+	else if (gt * 2 <= 1) {
+		out.g = ot;
+	}
+	else if (gt * 3 <= 2) {
+		out.g = tt + (ot - tt) * (0.6666667 - gt) * 6;
+	}
+	else
+		out.g = tt;
+	if (bt * 6 <= 1) {
+		out.b = tt + (ot - tt) * 6 * bt;
+	}
+	else if (bt * 2 <= 1) {
+		out.b = ot;
+	}
+	else if (bt * 3 <= 2) {
+		out.b = tt + (ot - tt) * (0.6666667 - bt) * 6;
+	}
+	else
+		out.b = tt;
+
+	if (out.r > 255) {
+		out.r = out.r - (out.r - 255);
+	}
+	if (out.g > 255) {
+		out.g = out.g - (out.g - 255);
+	}
+	if (out.b > 255) {
+		out.b = out.b - (out.b - 255);
+	}
+
+	if (out.r < 0) {
+		out.r = (0 - out.r);
+	}
+	if (out.g < 0) {
+		out.g = (0 - out.g);
+	}
+	if (out.b < 0) {
+		out.b = (0 - out.b);
+	}
+
 	return out;
 }

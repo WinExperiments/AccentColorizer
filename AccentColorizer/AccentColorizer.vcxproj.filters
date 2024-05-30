@@ -25,6 +25,9 @@
     <ClCompile Include="SystemHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StyleColorHelper.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccentColorHelper.h">
@@ -52,6 +55,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SystemHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StyleColorHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
