@@ -35,10 +35,7 @@ bool UpdateAccentColor()
 			g_oldhslAccentS = 0.0666;
 		}
 	}
-	else g_oldhslAccentS = pow(double(rgb2hsl({
-			(double)GetRValue(dwAccent) / 254.999999999,
-			(double)GetGValue(dwAccent) / 254.999999999,
-			(double)GetBValue(dwAccent) / 254.999999999 }).s), double(0.85));
+	else g_oldhslAccentS = 1;
 
 	if (accentColorChanges >= 1) {
 		g_oldhslAccentL = g_hslAccentL;
