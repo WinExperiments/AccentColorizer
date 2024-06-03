@@ -10,7 +10,7 @@ DWORD rgb2bgr(COLORREF color)
 
 hsl_t rgb2hsl(rgb_t in)
 {
-	hsl_t       out;
+	hsl_t       out{};
 	double      min, max, sigma, delta;
 
 	min = in.r < in.g ? in.r : in.g;
@@ -64,8 +64,8 @@ hsl_t rgb2hsl(rgb_t in)
 
 rgb_t hsl2rgb(hsl_t in)
 {
-	double      ot, tt, ht, rt, gt, bt; // temporary values one, two, hue, red, green, blue
-	rgb_t       out;
+	double      ot{}, tt, ht, rt, gt, bt; // temporary values one, two, hue, red, green, blue
+	rgb_t       out{};
 
 	/*if (in.s <= 0.0) {       // "<" is useless, just shuts up warnings
 		out.r = in.l;
@@ -73,7 +73,10 @@ rgb_t hsl2rgb(hsl_t in)
 		out.b = in.l;
 		return out;
 	}*/ // this was making saturation always return 0
-	if (in.l < 0.5)
+	if (in.l == 0) {
+		ot = 0;
+	}
+	if (in.l < 0.5 && in.l > 0)
 	{
 		ot = in.l * (1.0 + in.s);
 	}

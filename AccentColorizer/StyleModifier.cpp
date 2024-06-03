@@ -4,9 +4,11 @@
 #include "ColorHelper.h"
 #include "AccentColorHelper.h"
 #include "SystemHelper.h"
+#include <cmath>
 
 bool g_bColorizeMenus;
 bool g_bColorizeProgressBar;
+double brightnessMultiplier;
 
 HTHEME hTheme = nullptr;
 
@@ -18,6 +20,7 @@ void StandardBitmapPixelHandler(int& r, int& g, int& b, int& a)
 	hslVal.h = g_defaulthslAccentH;
 	hslVal.s = (double)hslVal.s * (double)(1 / (double)g_oldhslAccentS) * (double)g_defaulthslAccentS;
 
+	hslVal.l = hslVal.l - (g_oldhslAccentL * hslVal.s * (a / static_cast<double>(255))) + (g_hslAccentL * hslVal.s * (a / static_cast<double>(255))) - (g_defaulthslAccentL * hslVal.s);
 
 	hslVal.h = g_hslAccentH;
 	hslVal.s = (double)hslVal.s * (double)g_hslAccentS;
