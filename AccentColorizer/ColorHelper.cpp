@@ -73,9 +73,6 @@ rgb_t hsl2rgb(hsl_t in)
 		out.b = in.l;
 		return out;
 	}*/ // this was making saturation always return 0
-	if (in.l == 0) {
-		ot = 0;
-	}
 	if (in.l < 0.5 && in.l > 0)
 	{
 		ot = in.l * (1.0 + in.s);

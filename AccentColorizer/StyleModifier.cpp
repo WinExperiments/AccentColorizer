@@ -79,6 +79,11 @@ void ModifyStyles()
 	int i, j, k;
 	//
 
+	SetCurrentTheme(L"DirectUI::Button"); // Explorer / Legacy Shell Date Picker
+	//
+	ModifyStyle(1, 0, 0);
+
+
 	SetCurrentTheme(L"CommandModule"); // dummy code
 	//
 	ModifyColorStyle(3, 2, TMT_TEXTCOLOR);

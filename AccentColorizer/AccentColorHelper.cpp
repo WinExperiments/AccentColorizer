@@ -28,7 +28,6 @@ bool UpdateAccentColor()
 		return false;
 	}
 
-	g_dwAccent = dwAccent;
 	if (accentColorChanges >= 1) {
 		g_oldhslAccentS = g_hslAccentS;
 		if (g_oldhslAccentS <= 0.0666) {
