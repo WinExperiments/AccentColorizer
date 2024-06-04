@@ -23,7 +23,7 @@ void ApplyAccentColorization()
 
 	ModifySysColors();
 	ModifyStyles();
-	hBitmapList.clear();
+	handledBitmaps.clear();
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

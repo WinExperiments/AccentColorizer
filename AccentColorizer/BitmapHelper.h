@@ -1,10 +1,10 @@
 #pragma once
+
 #include "framework.h"
 #include <iostream>
-#include <vector>
+#include <set>
 
-using namespace std;
-extern vector <HBITMAP> hBitmapList;
+extern std::set<HBITMAP> handledBitmaps;
 
 typedef void (*BitmapPixelHandler)(int& r, int& g, int& b, int& a);
 
