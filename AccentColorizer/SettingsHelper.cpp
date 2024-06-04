@@ -3,7 +3,17 @@
 
 #include <VersionHelpers.h>
 
-bool IsRegistryValueEnabled(LPCWSTR key, LPCWSTR value)
+#define DEFAULT_PROGRESS_BAR_COLORIZATION FALSE
+
+enum REGISTRY_OPTION_STATUS
+{
+    REGISTRY_OPTION_ENABLED,
+    REGISTRY_OPTION_DISABLED,
+    REGISTRY_OPTION_NOT_SET
+};
+
+REGISTRY_OPTION_STATUS
+GetRegistryOptionStatus(LPCWSTR key, LPCWSTR value)
 {
     HKEY hKey;
     RegOpenKeyEx(
@@ -13,7 +23,7 @@ bool IsRegistryValueEnabled(LPCWSTR key, LPCWSTR value)
 
     if (!hKey)
     {
-        return false;
+        return REGISTRY_OPTION_NOT_SET;
     }
 
     DWORD dwBufferSize(sizeof(DWORD));
@@ -26,7 +36,9 @@ bool IsRegistryValueEnabled(LPCWSTR key, LPCWSTR value)
 
     RegCloseKey(hKey);
 
-    return ERROR_SUCCESS == nError ? nResult : false;
+    return ERROR_SUCCESS == nError 
+        ? REGISTRY_OPTION_ENABLED
+        : REGISTRY_OPTION_DISABLED;
 }
 
 bool IsMenuColorizationEnabled()
@@ -42,5 +54,9 @@ bool IsMenuColorizationEnabled()
 
 bool IsProgressBarColorizationEnabled()
 {
-    return IsRegistryValueEnabled(L"SOFTWARE\\AccentColorizer", L"ColorizeProgressBar");
+    REGISTRY_OPTION_STATUS status = GetRegistryOptionStatus(L"SOFTWARE\\AccentColorizer", L"ColorizeProgressBar");
+    if (status == REGISTRY_OPTION_NOT_SET) {
+        return DEFAULT_PROGRESS_BAR_COLORIZATION;
+    }
+    return status == REGISTRY_OPTION_ENABLED;
 }

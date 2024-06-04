@@ -780,163 +780,167 @@ void ModifyStyles()
 		}
 	}
 
-	SetCurrentTheme(L"Menu");
-	//
-	for (k = 1; k <= 7; k++)
+	if (g_bColorizeMenus)
 	{
-		ModifyStyle(27, 0, k);
-		ModifyStyle(26, 0, k);
-		ModifyStyle(16, 0, k);
-		ModifyStyle(15, 0, k);
-		ModifyStyle(14, 0, k);
-		ModifyStyle(13, 0, k);
-		ModifyStyle(12, 0, k);
-		ModifyStyle(10, 0, k);
-		ModifyStyle(9, 0, k);
-		ModifyStyle(8, 0, k);
-		ModifyStyle(7, 0, k);
-	}
-
-	// Menu Checkbox
-	for (j = 0; j <= 7; j++)
-	{
-		for (k = 0; k <= 7; k++)
-		{
-			ModifyStyle(11, j, k);
-		}
-	}
-
-	SetCurrentTheme(L"DarkMode::Menu");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(27, 0, k);
-		ModifyStyle(26, 0, k);
-		ModifyStyle(16, 0, k);
-		ModifyStyle(15, 0, k);
-		ModifyStyle(14, 0, k);
-		ModifyStyle(13, 0, k);
-		ModifyStyle(12, 0, k);
-		ModifyStyle(10, 0, k);
-		ModifyStyle(9, 0, k);
-		ModifyStyle(8, 0, k);
-		ModifyStyle(7, 0, k);
-	}
-
-	// Menu Checkbox
-	for (j = 0; j <= 7; j++)
-	{
-		for (k = 0; k <= 7; k++)
-		{
-			ModifyStyle(11, j, k);
-		}
-	}
-
-	SetCurrentTheme(L"ImmersiveStart::Menu");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(27, 0, k);
-		ModifyStyle(26, 0, k);
-		ModifyStyle(15, 0, k);
-		ModifyStyle(14, 0, k);
-	}
-
-	SetCurrentTheme(L"ImmersiveStartDark::Menu");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(27, 0, k);
-		ModifyStyle(26, 0, k);
-		ModifyStyle(15, 0, k);
-		ModifyStyle(14, 0, k);
-	}
-
-	SetCurrentTheme(L"DarkMode_ImmersiveStart::Menu");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(27, 0, k);
-		ModifyStyle(26, 0, k);
-		ModifyStyle(15, 0, k);
-		ModifyStyle(14, 0, k);
-	}
-
-	SetCurrentTheme(L"LightMode_ImmersiveStart::Menu");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(27, 0, k);
-		ModifyStyle(26, 0, k);
-		ModifyStyle(15, 0, k);
-		ModifyStyle(14, 0, k);
-	}
-
-	SetCurrentTheme(L"Communications::Menu");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(27, 0, k);
-		ModifyStyle(26, 0, k);
-		ModifyStyle(15, 0, k);
-		ModifyStyle(14, 0, k);
-		ModifyStyle(13, 0, k);
-		ModifyStyle(10, 0, k);
-		ModifyStyle(9, 0, k);
-	}
-
-	SetCurrentTheme(L"Media::Menu");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(27, 0, k);
-		ModifyStyle(26, 0, k);
-		ModifyStyle(15, 0, k);
-		ModifyStyle(14, 0, k);
-		ModifyStyle(13, 0, k);
-		ModifyStyle(10, 0, k);
-		ModifyStyle(9, 0, k);
-	}
-
-	SetCurrentTheme(L"Progress");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(5, 4, k);
-		ModifyStyle(6, 4, k);
-	}
-	for (i = 3; i <= 12; i++)
-	{
+		SetCurrentTheme(L"Menu");
+		//
 		for (k = 1; k <= 7; k++)
 		{
-			ModifyStyle(i, 1, k);
+			ModifyStyle(27, 0, k);
+			ModifyStyle(26, 0, k);
+			ModifyStyle(16, 0, k);
+			ModifyStyle(15, 0, k);
+			ModifyStyle(14, 0, k);
+			ModifyStyle(13, 0, k);
+			ModifyStyle(12, 0, k);
+			ModifyStyle(10, 0, k);
+			ModifyStyle(9, 0, k);
+			ModifyStyle(8, 0, k);
+			ModifyStyle(7, 0, k);
 		}
-	}
+		// Menu Checkbox
+		for (j = 0; j <= 7; j++)
+		{
+			for (k = 0; k <= 7; k++)
+			{
+				ModifyStyle(11, j, k);
+			}
+		}
 
-
-	SetCurrentTheme(L"Indeterminate::Progress");
-	//
-	for (i = 3; i <= 10; i++)
-	{
+		SetCurrentTheme(L"DarkMode::Menu");
+		//
 		for (k = 1; k <= 7; k++)
 		{
-			ModifyStyle(i, 1, k);
+			ModifyStyle(27, 0, k);
+			ModifyStyle(26, 0, k);
+			ModifyStyle(16, 0, k);
+			ModifyStyle(15, 0, k);
+			ModifyStyle(14, 0, k);
+			ModifyStyle(13, 0, k);
+			ModifyStyle(12, 0, k);
+			ModifyStyle(10, 0, k);
+			ModifyStyle(9, 0, k);
+			ModifyStyle(8, 0, k);
+			ModifyStyle(7, 0, k);
+		}
+		// Menu Checkbox
+		for (j = 0; j <= 7; j++)
+		{
+			for (k = 0; k <= 7; k++)
+			{
+				ModifyStyle(11, j, k);
+			}
+		}
+
+		SetCurrentTheme(L"ImmersiveStart::Menu");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(27, 0, k);
+			ModifyStyle(26, 0, k);
+			ModifyStyle(15, 0, k);
+			ModifyStyle(14, 0, k);
+		}
+
+		SetCurrentTheme(L"ImmersiveStartDark::Menu");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(27, 0, k);
+			ModifyStyle(26, 0, k);
+			ModifyStyle(15, 0, k);
+			ModifyStyle(14, 0, k);
+		}
+
+		SetCurrentTheme(L"DarkMode_ImmersiveStart::Menu");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(27, 0, k);
+			ModifyStyle(26, 0, k);
+			ModifyStyle(15, 0, k);
+			ModifyStyle(14, 0, k);
+		}
+
+		SetCurrentTheme(L"LightMode_ImmersiveStart::Menu");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(27, 0, k);
+			ModifyStyle(26, 0, k);
+			ModifyStyle(15, 0, k);
+			ModifyStyle(14, 0, k);
+		}
+
+		SetCurrentTheme(L"Communications::Menu");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(27, 0, k);
+			ModifyStyle(26, 0, k);
+			ModifyStyle(15, 0, k);
+			ModifyStyle(14, 0, k);
+			ModifyStyle(13, 0, k);
+			ModifyStyle(10, 0, k);
+			ModifyStyle(9, 0, k);
+		}
+
+		SetCurrentTheme(L"Media::Menu");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(27, 0, k);
+			ModifyStyle(26, 0, k);
+			ModifyStyle(15, 0, k);
+			ModifyStyle(14, 0, k);
+			ModifyStyle(13, 0, k);
+			ModifyStyle(10, 0, k);
+			ModifyStyle(9, 0, k);
 		}
 	}
 
-
-	SetCurrentTheme(L"AB::AddressBand");
-	//
-	for (k = 1; k <= 7; k++)
+	if (g_bColorizeProgressBar)
 	{
-		ModifyStyle(1, 4, k);
-	}
+		SetCurrentTheme(L"Progress");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(5, 4, k);
+			ModifyStyle(6, 4, k);
+		}
+		for (i = 3; i <= 12; i++)
+		{
+			for (k = 1; k <= 7; k++)
+			{
+				ModifyStyle(i, 1, k);
+			}
+		}
 
-	SetCurrentTheme(L"DarkMode_ABComposited::AddressBand");
-	//
-	for (k = 1; k <= 7; k++)
-	{
-		ModifyStyle(i, 4, k);
+
+		SetCurrentTheme(L"Indeterminate::Progress");
+		//
+		for (i = 3; i <= 10; i++)
+		{
+			for (k = 1; k <= 7; k++)
+			{
+				ModifyStyle(i, 1, k);
+			}
+		}
+
+
+		SetCurrentTheme(L"AB::AddressBand");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(1, 4, k);
+		}
+
+		SetCurrentTheme(L"DarkMode_ABComposited::AddressBand");
+		//
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(i, 4, k);
+		}
 	}
 
 	/** Tweaks for legacy components **/
