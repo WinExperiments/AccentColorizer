@@ -20,7 +20,7 @@ void StandardBitmapPixelHandler(int& r, int& g, int& b, int& a)
 	hslVal.h = g_hslDefaultAccent.h;
 	hslVal.s = hslVal.s * (1.0 / g_oldhslAccentS) * g_hslDefaultAccent.s;
 
-	hslVal.l = hslVal.l - (g_oldhslAccentL * hslVal.s * (a / static_cast<double>(255))) + (g_hslAccent.l * hslVal.s * (a / static_cast<double>(255))) - (g_hslDefaultAccent.l * hslVal.s);
+	hslVal.l = hslVal.l - (g_oldhslAccentL * hslVal.s * (a / 255.0)) + (g_hslAccent.l * hslVal.s * (a / 255.0)) - (g_hslDefaultAccent.l * hslVal.s);
 
 	hslVal.h = g_hslAccent.h;
 	hslVal.s = hslVal.s * g_hslAccent.s;
