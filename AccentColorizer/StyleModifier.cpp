@@ -17,13 +17,13 @@ void StandardBitmapPixelHandler(int& r, int& g, int& b, int& a)
 	rgb_t rgbVal = { r, g, b };
 	hsl_t hslVal = rgb2hsl(rgbVal);
 
-	hslVal.h = g_defaulthslAccentH;
-	hslVal.s = (double)hslVal.s * (double)(1 / (double)g_oldhslAccentS) * (double)g_defaulthslAccentS;
+	hslVal.h = g_hslDefaultAccent.h;
+	hslVal.s = hslVal.s * (1.0 / g_oldhslAccentS) * g_hslDefaultAccent.s;
 
-	hslVal.l = hslVal.l - (g_oldhslAccentL * hslVal.s * (a / static_cast<double>(255))) + (g_hslAccentL * hslVal.s * (a / static_cast<double>(255))) - (g_defaulthslAccentL * hslVal.s);
+	hslVal.l = hslVal.l - (g_oldhslAccentL * hslVal.s * (a / static_cast<double>(255))) + (g_hslAccent.l * hslVal.s * (a / static_cast<double>(255))) - (g_hslDefaultAccent.l * hslVal.s);
 
-	hslVal.h = g_hslAccentH;
-	hslVal.s = (double)hslVal.s * (double)g_hslAccentS;
+	hslVal.h = g_hslAccent.h;
+	hslVal.s = hslVal.s * g_hslAccent.s;
 
 	rgbVal = hsl2rgb(hslVal);
 
@@ -37,8 +37,8 @@ void StandardColorHandler(int& r, int& g, int& b) // dummy code
 	rgb_t rgbVal = { 255, 128, 128 };
 	hsl_t hslVal = rgb2hsl(rgbVal);
 
-	hslVal.h = g_hslAccentH;
-	hslVal.s = hslVal.s * (1 / g_oldhslAccentS) * g_hslAccentS;
+	hslVal.h = g_hslAccent.h;
+	hslVal.s = hslVal.s * (1 / g_oldhslAccentS) * g_hslAccent.s;
 
 	rgbVal = hsl2rgb(hslVal);
 }

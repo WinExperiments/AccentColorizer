@@ -37,13 +37,13 @@ void ModifySysColors()
 		};
 		hslVal = rgb2hsl(rgbVal);
 
-		hslVal.h = g_defaulthslAccentH;
-		hslVal.s = (double)hslVal.s * (double)(1 / (double)g_oldhslAccentS) * (double)g_defaulthslAccentS;
+		hslVal.h = g_hslDefaultAccent.h;
+		hslVal.s = hslVal.s * (1 / g_oldhslAccentS) * g_hslDefaultAccent.s;
 
-		hslVal.l = hslVal.l - (g_oldhslAccentL * hslVal.s) + (g_hslAccentL * hslVal.s) -  (g_defaulthslAccentL * hslVal.s);
+		hslVal.l = hslVal.l - (g_oldhslAccentL * hslVal.s) + (g_hslAccent.l * hslVal.s) -  (g_hslDefaultAccent.l * hslVal.s);
 
-		hslVal.h = g_hslAccentH;
-		hslVal.s = (double)hslVal.s * (double)g_hslAccentS;
+		hslVal.h = g_hslAccent.h;
+		hslVal.s = hslVal.s * g_hslAccent.s;
 
 
 
