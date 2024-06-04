@@ -12,6 +12,8 @@ double brightnessMultiplier;
 
 HTHEME hTheme = nullptr;
 
+std::set<HBITMAP> handledBitmaps;
+
 void StandardBitmapPixelHandler(int& r, int& g, int& b, int& a)
 {
 	rgb_t rgbVal = { r, g, b };
@@ -58,6 +60,13 @@ bool ModifyStyle(int iPartId, int iStateId, int iPropId)
 {
 	HBITMAP hBitmap;
 	GetThemeBitmap(hTheme, iPartId, iStateId, iPropId, GBF_DIRECT, &hBitmap);
+
+	if (handledBitmaps.find(hBitmap) != handledBitmaps.end())
+	{
+		return true;
+	}
+	handledBitmaps.emplace(hBitmap);
+
 	return IterateBitmap(hBitmap, StandardBitmapPixelHandler);
 }
 
