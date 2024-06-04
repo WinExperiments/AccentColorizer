@@ -1,7 +1,6 @@
 #pragma once
 
 #include "framework.h"
-#include <iostream>
 #include <set>
 
 extern std::set<HBITMAP> handledBitmaps;
