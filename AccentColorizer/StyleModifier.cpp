@@ -8,24 +8,43 @@
 
 bool g_bColorizeMenus;
 bool g_bColorizeProgressBar;
-double brightnessMultiplier;
+double brightnessMultiplier{};
 
 HTHEME hTheme = nullptr;
+
+std::set<HBITMAP> handledBitmaps;
 
 void StandardBitmapPixelHandler(int& r, int& g, int& b, int& a)
 {
 	rgb_t rgbVal = { r, g, b };
+	rgbVal.r = rgbVal.r / (a / 255.0);
+	rgbVal.g = rgbVal.g / (a / 255.0);
+	rgbVal.b = rgbVal.b / (a / 255.0);
 	hsl_t hslVal = rgb2hsl(rgbVal);
 
-	hslVal.h = g_hslDefaultAccent.h;
-	hslVal.s = hslVal.s * (1.0 / g_oldhslAccentS) * g_hslDefaultAccent.s;
+	if (accentColorChanges == 1) {
+		hslVal.l = hslVal.l + (18.0 * hslVal.s);
+	}
 
-	hslVal.l = hslVal.l - (g_oldhslAccentL * hslVal.s * (a / 255.0)) + (g_hslAccent.l * hslVal.s * (a / 255.0)) - (g_hslDefaultAccent.l * hslVal.s);
+	hslVal.h = g_hslDefaultAccent.h;
+	if (hslVal.l >= 128 && hslVal.l <= 254) {
+		hslVal.s = (double)hslVal.s * (double)(1 / (double)g_oldhslAccentS) * (double)g_hslDefaultAccent.s / ((1.0 - (hslVal.l / 255.0)) / (hslVal.l / 255.0));
+	}
+	else hslVal.s = (double)hslVal.s * (double)(1 / (double)g_oldhslAccentS) * (double)g_hslDefaultAccent.s;
+	
+	hslVal.l = hslVal.l - (g_oldhslAccentL - g_hslAccent.l - (3.6 * (g_hslDefaultAccent.l - (g_hslAccent.l / 255)))) * (1 - (hslVal.l / 255.0)) * hslVal.s;
 
 	hslVal.h = g_hslAccent.h;
-	hslVal.s = hslVal.s * g_hslAccent.s;
+
+	if (hslVal.l >= 128 && hslVal.l <= 254) {
+		hslVal.s = (double)hslVal.s * (double)g_hslAccent.s * ((1.0 - (hslVal.l / 255.0)) / (hslVal.l / 255.0));
+	}
+	else hslVal.s = (double)hslVal.s * (double)g_hslAccent.s;
 
 	rgbVal = hsl2rgb(hslVal);
+	rgbVal.r = rgbVal.r * (a / 255.0);
+	rgbVal.g = rgbVal.g * (a / 255.0);
+	rgbVal.b = rgbVal.b * (a / 255.0);
 
 	r = rgbVal.r;
 	g = rgbVal.g;
@@ -58,6 +77,11 @@ bool ModifyStyle(int iPartId, int iStateId, int iPropId)
 {
 	HBITMAP hBitmap;
 	GetThemeBitmap(hTheme, iPartId, iStateId, iPropId, GBF_DIRECT, &hBitmap);
+	if (handledBitmaps.find(hBitmap) != handledBitmaps.end())
+	{
+		return true;
+	}
+	handledBitmaps.emplace(hBitmap);
 	return IterateBitmap(hBitmap, StandardBitmapPixelHandler);
 }
 
@@ -78,7 +102,7 @@ void ModifyStyles()
 {
 	int i, j, k;
 	//
-	
+
 	SetCurrentTheme(L"CommandModule"); // dummy code
 	//
 	ModifyColorStyle(3, 2, TMT_TEXTCOLOR);
@@ -798,6 +822,7 @@ void ModifyStyles()
 			ModifyStyle(8, 0, k);
 			ModifyStyle(7, 0, k);
 		}
+
 		// Menu Checkbox
 		for (j = 0; j <= 7; j++)
 		{
@@ -823,6 +848,7 @@ void ModifyStyles()
 			ModifyStyle(8, 0, k);
 			ModifyStyle(7, 0, k);
 		}
+
 		// Menu Checkbox
 		for (j = 0; j <= 7; j++)
 		{
@@ -899,8 +925,7 @@ void ModifyStyles()
 		}
 	}
 
-	if (g_bColorizeProgressBar)
-	{
+	if (g_bColorizeProgressBar) {
 		SetCurrentTheme(L"Progress");
 		//
 		for (k = 1; k <= 7; k++)
@@ -926,21 +951,20 @@ void ModifyStyles()
 				ModifyStyle(i, 1, k);
 			}
 		}
+	}
 
+	SetCurrentTheme(L"AB::AddressBand");
+	//
+	for (k = 1; k <= 7; k++)
+	{
+		ModifyStyle(1, 4, k);
+	}
 
-		SetCurrentTheme(L"AB::AddressBand");
-		//
-		for (k = 1; k <= 7; k++)
-		{
-			ModifyStyle(1, 4, k);
-		}
-
-		SetCurrentTheme(L"DarkMode_ABComposited::AddressBand");
-		//
-		for (k = 1; k <= 7; k++)
-		{
-			ModifyStyle(i, 4, k);
-		}
+	SetCurrentTheme(L"DarkMode_ABComposited::AddressBand");
+	//
+	for (k = 1; k <= 7; k++)
+	{
+		ModifyStyle(i, 4, k);
 	}
 
 	/** Tweaks for legacy components **/
@@ -1042,10 +1066,11 @@ void ModifyStyles()
 
 	SetCurrentTheme(L"Tooltip");
 	//
-	for (i = 1; i <= 6; i++)
+	for (i = 1; i <= 4; i++)
 	{
 		ModifyStyle(i, 0, 0);
 	}
+	ModifyStyle(6, 0, 0);
 
 
 	SetCurrentTheme(L"BasicMenuMode::TaskbandExtendedUI");

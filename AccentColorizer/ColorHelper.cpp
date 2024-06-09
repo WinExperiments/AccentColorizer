@@ -46,12 +46,12 @@ hsl_t rgb2hsl(rgb_t in)
 		return out;
 	}
 	if (in.r >= max)                           // ">" is useless, just keeps compiler happy
-		out.h = (((in.g - in.b) / delta) * 60.0);        // between yellow & magenta
+		out.h = (((in.g - in.b) / 6) / delta) * 360.0;        // between yellow & magenta
 	else
 		if (in.g >= max)
-			out.h = ((2.0 + (in.b - in.r) / delta) * 60.0);  // between cyan & yellow
+			out.h = ((1.0 / 3.0) + ((in.b - in.r) / 6) / delta) * 360.0;  // between cyan & yellow
 		else
-			out.h = ((4.0 + (in.r - in.g) / delta) * 60.0);  // between magenta & cyan
+			out.h = ((2.0 / 3.0) + ((in.r - in.g) / 6) / delta) * 360.0;  // between magenta & cyan
 
 	if (out.h < 0.0)
 		out.h += 360.0;
@@ -64,7 +64,7 @@ hsl_t rgb2hsl(rgb_t in)
 
 rgb_t hsl2rgb(hsl_t in)
 {
-	double      ot{}, tt, ht, rt, gt, bt; // temporary values one, two, hue, red, green, blue
+	double      ot{}, tt{}, ht{}, rt{}, gt{}, bt{}; // temporary values one, two, hue, red, green, blue
 	rgb_t       out{};
 
 	/*if (in.s <= 0.0) {       // "<" is useless, just shuts up warnings
@@ -73,7 +73,7 @@ rgb_t hsl2rgb(hsl_t in)
 		out.b = in.l;
 		return out;
 	}*/ // this was making saturation always return 0
-	if (in.l < 0.5 && in.l > 0)
+	if (in.l < 0.5)
 	{
 		ot = in.l * (1.0 + in.s);
 	}
@@ -82,7 +82,7 @@ rgb_t hsl2rgb(hsl_t in)
 		ot = in.l + in.s - (in.l * in.s);
 	}
 	tt = (2 * in.l) - ot;
-	ht = in.h /= 360.0;
+	ht = in.h / 360.0;
 	if (ht > 0.6666667) {
 		rt = ht - (0.6666667);
 	}

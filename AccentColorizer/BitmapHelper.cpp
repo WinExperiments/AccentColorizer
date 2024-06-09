@@ -1,15 +1,7 @@
 #include "BitmapHelper.h"
 
-std::set<HBITMAP> handledBitmaps;
-
 bool IterateBitmap(HBITMAP hbm, BitmapPixelHandler handler)
 {
-    if (handledBitmaps.find(hbm) != handledBitmaps.end())
-    {
-        return true;
-    }
-    handledBitmaps.emplace(hbm);
-
     BITMAP bm;
     GetObject(hbm, sizeof(bm), &bm);
 

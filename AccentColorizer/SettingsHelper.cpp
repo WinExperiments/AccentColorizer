@@ -36,7 +36,7 @@ GetRegistryOptionStatus(LPCWSTR key, LPCWSTR value)
 
     RegCloseKey(hKey);
 
-    return ERROR_SUCCESS == nError 
+    return ERROR_SUCCESS == nError
         ? REGISTRY_OPTION_ENABLED
         : REGISTRY_OPTION_DISABLED;
 }

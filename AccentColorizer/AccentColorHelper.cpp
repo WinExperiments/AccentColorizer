@@ -3,15 +3,12 @@
 #include <cmath>
 
 COLORREF g_dwAccent;
-//
 hsl_t g_hslAccent;
 hsl_t g_hslDefaultAccent;
-//
+double g_oldhslAccentS;
 double g_balance1hslAccentS;
 double g_balance2hslAccentS;
-//
 double g_oldhslAccentL;
-double g_oldhslAccentS;
 
 bool UpdateAccentColor()
 {
@@ -27,7 +24,7 @@ bool UpdateAccentColor()
 		return false;
 	}
 
-	if (accentColorChanges >= 1) {
+	if (accentColorChanges >= 2) {
 		g_oldhslAccentS = g_hslAccent.s;
 		if (g_oldhslAccentS <= 0.0666) {
 			g_oldhslAccentS = 0.0666;
@@ -35,7 +32,7 @@ bool UpdateAccentColor()
 	}
 	else g_oldhslAccentS = 1;
 
-	if (accentColorChanges >= 1) {
+	if (accentColorChanges >= 2) {
 		g_oldhslAccentL = g_hslAccent.l;
 	}
 	else g_oldhslAccentL = 0;
@@ -66,7 +63,7 @@ bool UpdateAccentColor()
 		g_hslAccent.s = pow(double(rgb2hsl({
 			(double)GetRValue(dwAccent) / 254.999999999,
 			(double)GetGValue(dwAccent) / 254.999999999,
-			(double)GetBValue(dwAccent) / 254.999999999 }).s), double(0.85));
+			(double)GetBValue(dwAccent) / 254.999999999 }).s), double(0.9));
 	}
 
 
@@ -76,27 +73,27 @@ bool UpdateAccentColor()
 	g_hslDefaultAccent.h = 207;
 	g_hslDefaultAccent.s = 1;
 	g_hslDefaultAccent.l = (double)(rgb2hsl({
-		(double)0 / 254.999999999,
-		(double)120 / 254.999999999,
-		(double)215 / 254.999999999 }).l);
+		(double)0 / 255,
+		(double)120 / 255,
+		(double)215 / 255 }).l);
 
 	if (g_hslAccent.s < 0.0666) {
 		g_hslAccent.s = 0.0666;
 	}
-	if (accentColorChanges >= 1) {
+	if (accentColorChanges >= 2) {
 		if (g_hslAccent.s > 1) {
 			g_hslAccent.s = g_balance1hslAccentS + g_balance2hslAccentS;
 		}
 	}
 
 	g_hslAccent.l = ((double)(rgb2hsl({
-		(double)GetRValue(dwAccent) / 254.999999999,
-		(double)GetGValue(dwAccent) / 254.999999999,
-		(double)GetBValue(dwAccent) / 254.999999999 }).l) - 
+		(double)GetRValue(dwAccent) / 255,
+		(double)GetGValue(dwAccent) / 255,
+		(double)GetBValue(dwAccent) / 255 }).l) - 
 					(double)(rgb2hsl({
-		(double)0 / 254.999999999,
-		(double)120 / 254.999999999,
-		(double)215 / 254.999999999 }).l)) * -255; // based on default accent color #0078D7 (RGB 0, 120, 215)
+		(double)0 / 255,
+		(double)120 / 255,
+		(double)215 / 255 }).l)) * -255; // based on default accent color #0078D7 (RGB 0, 120, 215)
 
 	return true;
 }

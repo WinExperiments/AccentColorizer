@@ -42,7 +42,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//  d) Device was turned on after sleep, and colors and bitmaps probably were reset
 			g_dwAccent = NULL;
 		}
-		if (message == WM_DWMCOLORIZATIONCOLORCHANGED || (message == WM_WTSSESSION_CHANGE && wParam == WTS_SESSION_UNLOCK)) {
+		if (message == WM_THEMECHANGED) {
+			accentColorChanges = 1;
+		}
+		else if (message == WM_DWMCOLORIZATIONCOLORCHANGED || (message == WM_WTSSESSION_CHANGE && wParam == WTS_SESSION_UNLOCK)) {
+			accentColorChanges++;
 			accentColorChanges++;
 		}
 		else {
