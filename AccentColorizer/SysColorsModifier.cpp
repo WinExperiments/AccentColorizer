@@ -38,7 +38,7 @@ void ModifySysColors()
 		hslVal = rgb2hsl(rgbVal);
 
 		if (accentColorChanges == 1) {
-			hslVal.l = hslVal.l + (18.0 * hslVal.s);
+			hslVal.l = hslVal.l + (5.1 * hslVal.s);
 		}
 
 		hslVal.h = g_hslDefaultAccent.h;
@@ -47,7 +47,7 @@ void ModifySysColors()
 		}
 		else hslVal.s = (double)hslVal.s * (double)(1 / (double)g_oldhslAccentS) * (double)g_hslDefaultAccent.s;
 
-		hslVal.l = hslVal.l - (g_oldhslAccentL - g_hslAccent.l - (3.6 * (g_hslDefaultAccent.l - (g_hslAccent.l / 255)))) * (1 - (hslVal.l / 255.0)) * hslVal.s;
+		hslVal.l = hslVal.l - (g_oldhslAccentL - g_hslAccent.l /* - (3.6 * (g_hslDefaultAccent.l - (g_hslAccent.l / 255)))) * (1 - (hslVal.l / 255.0) */) * hslVal.s;
 
 		hslVal.h = g_hslAccent.h;
 
