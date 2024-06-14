@@ -51,10 +51,13 @@ bool UpdateAccentColor()
 			(double)GetGValue(dwAccent) / 255,
 			(double)GetBValue(dwAccent) / 255 }).h;
 	}
-	if (g_hslAccent.h >= 0 && g_hslAccent.h < 120) {
+	if (g_hslAccent.h >= 0 && g_hslAccent.h < 125) {
 		g_hslLightAccentH = 60;
 	}
-	else if (g_hslAccent.h >= 120 && g_hslAccent.h < 240) {
+	else if (g_hslAccent.h >= 125 && g_hslAccent.h < 150) {
+		g_hslLightAccentH = 120;
+	}
+	else if (g_hslAccent.h >= 150 && g_hslAccent.h < 240) {
 		g_hslLightAccentH = 180;
 	}
 	else if (g_hslAccent.h >= 240 && g_hslAccent.h < 345) {
@@ -69,10 +72,10 @@ bool UpdateAccentColor()
 	else if (g_hslAccent.h >= 60 && g_hslAccent.h < 180) {
 		g_hslDarkAccentH = 120;
 	}
-	else if (g_hslAccent.h >= 180 && g_hslAccent.h < 285) {
+	else if (g_hslAccent.h >= 180 && g_hslAccent.h < 300) {
 		g_hslDarkAccentH = 240;
 	}
-	else if (g_hslAccent.h >= 285 && g_hslAccent.h < 360) {
+	else if (g_hslAccent.h >= 300 && g_hslAccent.h < 360) {
 		g_hslDarkAccentH = 360;
 	}
 
@@ -114,9 +117,9 @@ bool UpdateAccentColor()
 		(double)GetBValue(dwAccent) / 255 }).l) - (double)(rgb2hsl({
 		(double)0 / 255,
 		(double)110 / 255,
-		(double)199 / 255 }).l)) * -255.0; // based on default accent color #0078D7 (RGB 0, 120, 215), which is slightly darkened for DWM
+		(double)199 / 255 }).l)) * -255.0; // based on default accent color #0078D7 (RGB 0, 120, 215), which is slightly darkened for DWM.
 
-	g_oldhslEnhancedAccentL = (g_hslDefaultAccent.l * 255) - g_oldhslAccentL;
+	g_oldhslEnhancedAccentL = (g_hslDefaultAccent.l * 255) - (g_oldhslAccentL);
 
 	return true;
 }
