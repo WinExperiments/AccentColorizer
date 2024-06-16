@@ -948,18 +948,17 @@ void ModifyStyles()
 				ModifyStyle(i, 1, k);
 			}
 		}
-	}
 
-	SetCurrentTheme(L"Indeterminate::Progress");
-	//
-	for (i = 3; i <= 10; i++)
-	{
-		for (k = 1; k <= 7; k++)
+		SetCurrentTheme(L"Indeterminate::Progress");
+		//
+		for (i = 3; i <= 10; i++)
 		{
-			ModifyStyle(i, 1, k);
+			for (k = 1; k <= 7; k++)
+			{
+				ModifyStyle(i, 1, k);
+			}
 		}
 	}
-
 
 	SetCurrentTheme(L"AB::AddressBand");
 	//
