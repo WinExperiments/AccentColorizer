@@ -8,7 +8,7 @@
 
 bool g_bColorizeMenus;
 bool g_bColorizeProgressBar;
-double g_hslEnhancedAccentHL;
+double g_hslEnhancedAccentHL{};
 
 HTHEME hTheme = nullptr;
 
@@ -948,18 +948,18 @@ void ModifyStyles()
 				ModifyStyle(i, 1, k);
 			}
 		}
+	}
 
-
-		SetCurrentTheme(L"Indeterminate::Progress");
-		//
-		for (i = 3; i <= 10; i++)
+	SetCurrentTheme(L"Indeterminate::Progress");
+	//
+	for (i = 3; i <= 10; i++)
+	{
+		for (k = 1; k <= 7; k++)
 		{
-			for (k = 1; k <= 7; k++)
-			{
-				ModifyStyle(i, 1, k);
-			}
+			ModifyStyle(i, 1, k);
 		}
 	}
+
 
 	SetCurrentTheme(L"AB::AddressBand");
 	//

@@ -2,15 +2,15 @@
 #include "ColorHelper.h"
 #include <cmath>
 
-COLORREF g_dwAccent;
-hsl_t g_hslAccent;
-hsl_t g_hslDefaultAccent;
-double g_oldhslAccentS;
-double g_balance1hslAccentS;
-double g_balance2hslAccentS;
-double g_oldhslAccentL;
-int g_hslLightAccentH;
-int g_hslDarkAccentH;
+COLORREF g_dwAccent{};
+hsl_t g_hslAccent{};
+hsl_t g_hslDefaultAccent{};
+double g_oldhslAccentS{};
+double g_balance1hslAccentS{};
+double g_balance2hslAccentS{};
+double g_oldhslAccentL{};
+int g_hslLightAccentH{};
+int g_hslDarkAccentH{};
 double g_hslEnhancedAccentL{};
 double g_oldhslEnhancedAccentL{};
 
@@ -113,8 +113,10 @@ bool UpdateAccentColor()
 		}
 	}
 
-	if ((double)GetRValue(dwAccent) == (double)GetGValue(dwAccent) && (double)GetGValue(dwAccent) == (double)GetBValue(dwAccent) && accentColorChanges == 1){
-		g_hslAccent.l = 0;
+	if ((double)GetRValue(dwAccent) == (double)GetGValue(dwAccent) && (double)GetGValue(dwAccent) == (double)GetBValue(dwAccent)){
+		if (accentColorChanges == 1) {
+			g_hslAccent.l = 0.0;
+		}
 	}
 	else {
 		g_hslAccent.l = ((double)(rgb2hsl({

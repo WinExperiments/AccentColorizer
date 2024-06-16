@@ -23,12 +23,16 @@ void ModifySysColors()
 	DWORD aNewColors[nSysElements];
 
 	COLORREF dwCurrentColor;
-	rgb_t rgbVal;
-	hsl_t hslVal;
+	rgb_t rgbVal{};
+	hsl_t hslVal{};
 
 	for (int i = 0; i < nSysElements; i++)
 	{
 		dwCurrentColor = GetSysColor(aSysElements[i]);
+
+		if (accentColorChanges == 1) {
+			hslVal.l = hslVal.l - (5.1 * hslVal.s);
+		}
 
 		rgbVal = {
 			(double)GetRValue(dwCurrentColor),
@@ -36,10 +40,6 @@ void ModifySysColors()
 			(double)GetBValue(dwCurrentColor)
 		};
 		hslVal = rgb2hsl(rgbVal);
-
-		if (accentColorChanges == 1) {
-			hslVal.l = hslVal.l + (5.1 * hslVal.s);
-		}
 
 		hslVal.h = g_hslDefaultAccent.h;
 		if (hslVal.l >= 128 && hslVal.l <= 254) {
