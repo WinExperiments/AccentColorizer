@@ -30,8 +30,8 @@ bool UpdateAccentColor()
 
 	if (accentColorChanges >= 2) {
 		g_oldhslAccentS = g_hslAccent.s;
-		if (g_oldhslAccentS <= 0.0666) {
-			g_oldhslAccentS = 0.0666;
+		if (g_oldhslAccentS <= 0.08) {
+			g_oldhslAccentS = 0.08;
 		}
 	}
 	else g_oldhslAccentS = 1;
@@ -81,7 +81,10 @@ bool UpdateAccentColor()
 
 	g_dwAccent = dwAccent;
 	if ((double)GetRValue(dwAccent) == (double)GetGValue(dwAccent) && (double)GetGValue(dwAccent) == (double)GetBValue(dwAccent)) {
-		g_hslAccent.s = 0.0667;
+		if (accentColorChanges == 1) {
+			g_hslAccent.s = 0.5;
+		}
+		else g_hslAccent.s = 0.0801;
 	}
 	else {
 		g_hslAccent.s = pow(double(rgb2hsl({
@@ -101,8 +104,8 @@ bool UpdateAccentColor()
 		(double)120 / 255,
 		(double)215 / 255 }).l);
 
-	if (g_hslAccent.s < 0.0666) {
-		g_hslAccent.s = 0.0666;
+	if (g_hslAccent.s < 0.08) {
+		g_hslAccent.s = 0.08;
 	}
 	if (accentColorChanges >= 2) {
 		if (g_hslAccent.s > 1) {
@@ -110,15 +113,18 @@ bool UpdateAccentColor()
 		}
 	}
 
-
-	g_hslAccent.l = ((double)(rgb2hsl({
-		(double)GetRValue(dwAccent) / 255,
-		(double)GetGValue(dwAccent) / 255,
-		(double)GetBValue(dwAccent) / 255 }).l) - (double)(rgb2hsl({
-		(double)0 / 255,
-		(double)110 / 255,
-		(double)199 / 255 }).l)) * -255.0; // based on default accent color #0078D7 (RGB 0, 120, 215), which is slightly darkened for DWM.
-
+	if ((double)GetRValue(dwAccent) == (double)GetGValue(dwAccent) && (double)GetGValue(dwAccent) == (double)GetBValue(dwAccent) && accentColorChanges == 1){
+		g_hslAccent.l = 0;
+	}
+	else {
+		g_hslAccent.l = ((double)(rgb2hsl({
+			(double)GetRValue(dwAccent) / 255,
+			(double)GetGValue(dwAccent) / 255,
+			(double)GetBValue(dwAccent) / 255 }).l) - (double)(rgb2hsl({
+			(double)0 / 255,
+			(double)110 / 255,
+			(double)199 / 255 }).l)) * -255.0; // based on default accent color #0078D7 (RGB 0, 120, 215), which is slightly darkened for DWM.
+	}
 	g_oldhslEnhancedAccentL = (g_hslDefaultAccent.l * 255) - (g_oldhslAccentL);
 
 	return true;

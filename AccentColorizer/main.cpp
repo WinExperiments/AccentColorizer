@@ -46,8 +46,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			accentColorChanges = 1;
 		}
 		else if (message == WM_DWMCOLORIZATIONCOLORCHANGED || (message == WM_WTSSESSION_CHANGE && wParam == WTS_SESSION_UNLOCK)) {
-			accentColorChanges++;
-			accentColorChanges++;
+			accentColorChanges = 2 + accentColorChanges;
 		}
 		else {
 			accentColorChanges = 0;
