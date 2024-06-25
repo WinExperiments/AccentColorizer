@@ -94,12 +94,12 @@ bool ModifyStyle(int iPartId, int iStateId, int iPropId)
 	return IterateBitmap(hBitmap, StandardBitmapPixelHandler);
 }
 
-bool ModifyColorStyle(int iPartId, int iStateId, int iPropId) // dummy code
+/* bool ModifyColorStyle(int iPartId, int iStateId, int iPropId) // dummy code
 {
 	COLORREF hColor;
 	GetThemeColor(hTheme, iPartId, iStateId, iPropId, &hColor);
 	return IterateColor(hColor, StandardColorHandler);
-}
+} */
 
 ///
 /// At first glance, such refactoring looks useless,
@@ -112,9 +112,9 @@ void ModifyStyles()
 	int i, j, k;
 	//
 
-	SetCurrentTheme(L"CommandModule"); // dummy code
+	/* SetCurrentTheme(L"CommandModule"); // dummy code
 	//
-	ModifyColorStyle(3, 2, TMT_TEXTCOLOR);
+	ModifyColorStyle(3, 2, TMT_TEXTCOLOR); */
 
 	SetCurrentTheme(VSCLASS_BUTTON);
 	//

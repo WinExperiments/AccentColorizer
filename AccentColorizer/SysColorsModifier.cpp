@@ -30,10 +30,6 @@ void ModifySysColors()
 	{
 		dwCurrentColor = GetSysColor(aSysElements[i]);
 
-		if (accentColorChanges == 1) {
-			hslVal.l = hslVal.l - (5.1 * hslVal.s);
-		}
-
 		rgbVal = {
 			(double)GetRValue(dwCurrentColor),
 			(double)GetGValue(dwCurrentColor),

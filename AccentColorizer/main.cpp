@@ -8,6 +8,7 @@
 constexpr LPCWSTR szWindowClass = L"ACCENTCOLORIZER";
 HANDLE hMutex;
 int accentColorChanges = 0;
+int dpiChange = 0;
 
 void ApplyAccentColorization()
 {
@@ -21,7 +22,9 @@ void ApplyAccentColorization()
 		return;
 	}
 
-	ModifySysColors();
+	if (dpiChange == 0) {
+		ModifySysColors();
+	}
 	ModifyStyles();
 	handledBitmaps.clear();
 }
@@ -29,7 +32,7 @@ void ApplyAccentColorization()
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (message == WM_DWMCOLORIZATIONCOLORCHANGED ||
-		message == WM_THEMECHANGED ||
+		message == WM_THEMECHANGED || message == WM_DPICHANGED ||
 		(message == WM_WTSSESSION_CHANGE && wParam == WTS_SESSION_UNLOCK)
 		)
 	{
