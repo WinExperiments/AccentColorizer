@@ -36,7 +36,7 @@ void StandardBitmapPixelHandler(int& r, int& g, int& b, int& a)
 		}
 		else hslVal.l = hslVal.l + ((g_hslAccent.l - g_oldhslAccentL) * (pow(1 - ((hslVal.l - g_oldhslEnhancedAccentL) / 255.0), 2.0)) * hslVal.s);
 	}
-	else hslVal.l = hslVal.l - (g_oldhslAccentL - g_hslAccent.l) * hslVal.s;
+	else hslVal.l = hslVal.l - ((g_oldhslAccentL - g_hslAccent.l) * hslVal.s);
 
 	if (hslVal.l > g_hslEnhancedAccentHL) {
 		hslVal.h = g_hslAccent.h + 0.5 * ((g_hslLightAccentH - g_hslAccent.h) * ((hslVal.l - g_hslEnhancedAccentHL) / (255.0 - g_hslEnhancedAccentHL)));
@@ -128,6 +128,18 @@ void ModifyStyles()
 		ModifyStyle(BP_COMMANDLINKGLYPH, 0, j);
 	}
 
+	SetCurrentTheme(L"DarkMode_Explorer::Button");
+	//
+	ModifyStyle(BP_PUSHBUTTON, 0, 0);
+	ModifyStyle(BP_COMMANDLINK, 0, 0);
+	for (j = 1; j <= 7; j++)
+	{
+		ModifyStyle(BP_RADIOBUTTON, 0, j);
+		ModifyStyle(BP_CHECKBOX, 0, j);
+		ModifyStyle(BP_GROUPBOX, 0, j);
+		ModifyStyle(BP_COMMANDLINKGLYPH, 0, j);
+	}
+
 
 	SetCurrentTheme(VSCLASS_COMBOBOX);
 	//
@@ -139,8 +151,28 @@ void ModifyStyles()
 		}
 	}
 
+	SetCurrentTheme(L"DarkMode_CFD::Combobox");
+	//
+	for (i = CP_DROPDOWNBUTTON; i <= CP_DROPDOWNBUTTONLEFT; i++)
+	{
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(i, 0, k);
+		}
+	}
+
 
 	SetCurrentTheme(VSCLASS_EDIT);
+	//
+	for (i = EP_EDITBORDER_NOSCROLL; i <= EP_EDITBORDER_HVSCROLL; i++)
+	{
+		for (k = 1; k <= 7; k++)
+		{
+			ModifyStyle(i, 0, k);
+		}
+	}
+
+	SetCurrentTheme(L"DarkMode_Explorer::Edit");
 	//
 	for (i = EP_EDITBORDER_NOSCROLL; i <= EP_EDITBORDER_HVSCROLL; i++)
 	{
@@ -1042,6 +1074,13 @@ void ModifyStyles()
 
 
 	SetCurrentTheme(L"ScrollBar");
+	//
+	for (i = 1; i <= 10; i++)
+	{
+		ModifyStyle(i, 0, 0);
+	}
+
+	SetCurrentTheme(L"DarkMode_Explorer::ScrollBar");
 	//
 	for (i = 1; i <= 10; i++)
 	{

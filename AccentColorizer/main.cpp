@@ -8,7 +8,6 @@
 constexpr LPCWSTR szWindowClass = L"ACCENTCOLORIZER";
 HANDLE hMutex;
 int accentColorChanges = 0;
-int dpiChange = 0;
 
 void ApplyAccentColorization()
 {
@@ -21,11 +20,8 @@ void ApplyAccentColorization()
 		// Apparently it is fixed in Windows 11 version 22H2
 		return;
 	}
-
-	if (dpiChange == 0) {
-		ModifySysColors();
-	}
 	ModifyStyles();
+	ModifySysColors();
 	handledBitmaps.clear();
 }
 
@@ -46,9 +42,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			g_dwAccent = NULL;
 		}
 		if (message == WM_THEMECHANGED) {
-			accentColorChanges = 1;
+			accentColorChanges = 0; // IMPORTANT: While this works better on modern 22H2, it doesn't on early 22H2 unless the program is compiled in debug mode.
+									// 23H2 is most likely working the same as modern 22H2, as they use the same base. Please test this on 24H2.
+									// Updated 22H2 issue: Brightness change is not applied correctly if the color applied has brightness different from the original #0078D7. 
+									// (Fixed on November 20, 2024 by adding line 45 (setting a hue value before returning the HSL struct) to ColorHelper.cpp.)
+									// Early 22H2 issues: Colors are completely wrong (This could have been fixed after the November 20 code update.)
 		}
-		else if (message == WM_DWMCOLORIZATIONCOLORCHANGED || (message == WM_WTSSESSION_CHANGE && wParam == WTS_SESSION_UNLOCK)) {
+		else if (message == WM_DWMCOLORIZATIONCOLORCHANGED || (message == WM_WTSSESSION_CHANGE && wParam == WTS_SESSION_UNLOCK) || message == WM_DPICHANGED) {
 			accentColorChanges = 2 + accentColorChanges;
 		}
 		else {

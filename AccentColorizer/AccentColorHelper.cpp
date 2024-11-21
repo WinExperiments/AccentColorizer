@@ -42,6 +42,7 @@ bool UpdateAccentColor()
 	else g_oldhslAccentL = 0;
 
 	g_dwAccent = dwAccent;
+
 	if ((double)GetRValue(dwAccent) == (double)GetGValue(dwAccent) && (double)GetGValue(dwAccent) == (double)GetBValue(dwAccent)) {
 		g_hslAccent.h = 210.0;
 	}
@@ -107,7 +108,7 @@ bool UpdateAccentColor()
 	if (g_hslAccent.s < 0.08) {
 		g_hslAccent.s = 0.08;
 	}
-	if (accentColorChanges >= 2) {
+	if (accentColorChanges >= 1) {
 		if (g_hslAccent.s > 1) {
 			g_hslAccent.s = g_balance1hslAccentS + g_balance2hslAccentS;
 		}
@@ -127,6 +128,7 @@ bool UpdateAccentColor()
 			(double)110 / 255,
 			(double)199 / 255 }).l)) * -255.0; // based on default accent color #0078D7 (RGB 0, 120, 215), which is slightly darkened for DWM.
 	}
+	g_hslAccent.l = g_hslAccent.l;
 	g_oldhslEnhancedAccentL = (g_hslDefaultAccent.l * 255) - (g_oldhslAccentL);
 
 	return true;

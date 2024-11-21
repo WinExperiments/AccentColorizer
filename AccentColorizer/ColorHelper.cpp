@@ -41,7 +41,8 @@ hsl_t rgb2hsl(rgb_t in)
 		} */
 	}
 	else {
-		// if max is 0, then r = g = b = 0              
+		// if max is 0, then r = g = b = 0   
+		out.h = 210.0;
 		out.s = 0.0;
 		return out;
 	}
